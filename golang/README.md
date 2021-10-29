@@ -1,3 +1,5 @@
+# Notes
+
 - Design Patterns are typically OOP-based
 - Go is not OOP
   - No inheritance
