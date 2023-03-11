@@ -1,32 +1,32 @@
 export enum SearchBy {
-  Director = "director",
-  Title = "title",
+    Director = "director",
+    Title = "title"
 }
 
 export interface ISearchStrategy {
-    search(items: IMovie[], by: SearchBy, term: string): IMovie[]
+    search(items: IMovie[], by: SearchBy, term: string): IMovie[];
 }
 
 export class BinarySearchStrategy implements ISearchStrategy {
     search(items: IMovie[], by: SearchBy, term: string): IMovie[] {
         const result: IMovie[] = [];
 
-        let start = 0;
-        let end = items.length - 1;
-        let middle = Math.floor(end / 2);
+        let low = 0;
+        let high = items.length - 1;
+        let middle;
 
-        while (start < end) {
+        while (low < high) {
+            middle = low + Math.floor((high - low) / 2);
+
             if (items[middle][by] === term) {
                 result.push(items[middle]);
                 break;
             }
 
             if (items[middle][by] > term) {
-                end = middle;
-                middle = Math.floor(end / 2);
+                high = middle - 1;
             } else {
-                start = middle;
-                middle = start + Math.floor((end - middle) / 2);
+                low = middle + 1;
             }
         }
 
@@ -84,4 +84,3 @@ export class MoviesCatalog {
         return this.searchStrategy.search(this.items, by, term);
     }
 }
-
